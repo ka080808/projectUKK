@@ -394,9 +394,9 @@
                         <div class="name">Laporan</div>
                     </a>
 
-                    <a href="#" class="menu-item" style="text-decoration: none; color: inherit; opacity: 0.6; cursor: not-allowed;">
+                    <a href="{{ route('report.index') }}" class="menu-item" style="text-decoration: none; color: inherit;">
                         <div class="icon">🖨️</div>
-                        <div class="name">Cetak Dokumen (Soon)</div>
+                        <div class="name">Cetak Dokumen</div>
                     </a>
                 </div>
             </div>
@@ -404,3 +404,4 @@
     </div>
 </body>
 </html>
+🖨️
