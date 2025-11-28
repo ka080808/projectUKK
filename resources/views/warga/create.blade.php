@@ -187,7 +187,7 @@
                 <a href="{{ route('pbb.create') }}">📝 Input Data PBB</a>
                 <a href="{{ route('pbb.index') }}">👁️ Lihat Data PBB</a>
                 <a href="{{ route('report.index') }}">📄 Laporan</a>
-                <a href="#">📥 Cetak Dokumen</a>
+                
             </nav>
         </div>
 
