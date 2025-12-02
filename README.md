@@ -865,7 +865,7 @@ Jika dalam future ada requirement seperti:
 - Satu warga bisa menjadi pengelola untuk multiple PBB
 
 Implementation:
-    
+
     WARGA                        WARGA_PBB                    PBB
     ┌──────────────┐         ┌──────────────┐         ┌──────────────┐
     │ id (PK)      │         │ id (PK)      │         │ id (PK)      │
@@ -1815,7 +1815,7 @@ Schema::create('warga_pbb', function (Blueprint $table) {
     $table->decimal('share_pct', 5, 2)->default(100); // Ownership %
     $table->enum('role', ['owner', 'manager', 'beneficiary']);
     $table->timestamps();
-    
+
     // Composite unique key
     $table->unique(['warga_id', 'pbb_id']);
 });
