@@ -54,7 +54,7 @@
             font-size: 14px;
         }
 
-        .alert-danger { background: #f8d7da; color: #721c24; }
+        .alert-danger { background: #e85a66ff; color: #721c24; }
         .alert-success { background: #d4edda; color: #155724; }
 
         label {
@@ -68,7 +68,7 @@
         input[type="password"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #bc16e6ff;
             border-radius: 7px;
             font-size: 14px;
             transition: .3s;
@@ -82,7 +82,7 @@
 
         .form-error {
             font-size: 13px;
-            color: #e74c3c;
+            color: #129318ff;
             margin-top: 5px;
         }
 

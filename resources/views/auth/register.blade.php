@@ -63,7 +63,7 @@
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #0718d3ff;
             border-radius: 5px;
             font-size: 14px;
             transition: border-color 0.3s;
@@ -156,7 +156,7 @@
         }
 
         .errors-list li {
-            color: #e74c3c;
+            color: #33b90eff;
             font-size: 13px;
             margin-bottom: 3px;
         }
