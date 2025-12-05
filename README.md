@@ -14,6 +14,7 @@
 
 </div>
 
+
 ---
 
 ## 📖 Daftar Isi
@@ -746,105 +747,8 @@ Warga (1) ──────→ (∞) PBB
 
 ### 🎯 Class Diagram Lengkap
 
-```
-╔════════════════════════════════════════════════════════════════════════════════╗
-║                           SYSTEM CLASS DIAGRAM                                 ║
-╚════════════════════════════════════════════════════════════════════════════════╝
 
-                              ┌─────────────────────────────┐
-                              │  <<Authenticatable>>        │
-                              │    User Model               │
-                              ├─────────────────────────────┤
-                              │  - id: int (PK)             │
-                              │  - name: string             │
-                              │  - email: string (UNIQUE)   │
-                              │  - password: string         │
-                              │  - role: enum['admin'|'user']
-                              │  - remember_token: string   │
-                              │  - created_at: timestamp    │
-                              │  - updated_at: timestamp    │
-                              ├─────────────────────────────┤
-                              │  + authenticate()           │
-                              │  + authorize()              │
-                              │  + login()                  │
-                              │  + logout()                 │
-                              │  + register()               │
-                              └──────────┬──────────────────┘
-                                         │
-                    ┌────────────────────┴────────────────────┐
-                    │                                         │
-        ┌───────────▼──────────────┐          ┌──────────────▼────────────┐
-        │   <<Model>>              │          │  <<Authenticatable>>      │
-        │   Warga                  │          │  User                     │
-        ├──────────────────────────┤          │  (Session-based Auth)     │
-        │  - id: int (PK)          │          │  (Role: admin | user)     │
-        │  - nik: string (UNIQUE)  │          └───────────────────────────┘
-        │  - no_kk: string         │
-        │  - nama_lengkap: string  │
-        │  - alamat: string        │
-        │  - rt, rw: int           │
-        │  - jenis_kelamin: enum   │
-        │  - tempat_lahir: string  │
-        │  - tanggal_lahir: date   │
-        │  - no_telp: string       │
-        │  - agama: string         │
-        │  - created_at: timestamp │
-        │  - updated_at: timestamp │
-        ├──────────────────────────┤
-        │  + create(): Warga       │
-        │  + read(): Warga         │
-        │  + update(): void        │
-        │  + delete(): void        │
-        │  + getPBB(): Collection  │
-        │  + validateNIK(): bool   │
-        │  + calculateAge(): int   │
-        │  + getFullAddress(): str │
-        │  + searchByNIK(): Warga  │
-        └───────────┬──────────────┘
-                    │
-         Relationship: hasMany
-         Method: pbb()
-                    │
-        ┌───────────▼──────────────────┐
-        │   <<Model>>                  │
-        │   PBB                        │
-        ├──────────────────────────────┤
-        │  - id: int (PK)              │
-        │  - nop: string (UNIQUE)      │
-        │  - nik_pemilik: string (FK)  │
-        │  - nama_pemilik: string      │
-        │  - alamat_objek: string      │
-        │  - rt, rw: int               │
-        │  - kelurahan: string         │
-        │  - kecamatan: string         │
-        │  - kabupaten: string         │
-        │  - provinsi: string          │
-        │  - luas_tanah: int           │
-        │  - luas_bangunan: int        │
-        │  - status_tanah: string      │
-        │  - status_bangunan: string   │
-        │  - jenis_bangunan: string    │
-        │  - tahun_perolehan: int      │
-        │  - nilai_pajak_tahun_ini: bigint
-        │  - status_pembayaran: string │
-        │  - keterangan: string        │
-        │  - created_at: timestamp     │
-        │  - updated_at: timestamp     │
-        ├──────────────────────────────┤
-        │  + create(): PBB             │
-        │  + read(): PBB               │
-        │  + update(): void            │
-        │  + delete(): void            │
-        │  + getOwner(): Warga         │
-        │  + calculateTax(): bigint    │
-        │  + updatePaymentStatus(): void
-        │  + generateReport(): string  │
-        │  + exportToPDF(): PDF        │
-        │  + exportToExcel(): Excel    │
-        │  + searchByNOP(): PBB        │
-        │  + filterByStatus(): Collection
-        └──────────────────────────────┘
-```
+<img src="public/Screenshot%20(68).png" alt="Screenshot aplikasi" width="800"/>
 
 ### 🔄 Relasi Many-to-Many (Potential Enhancement)
 
