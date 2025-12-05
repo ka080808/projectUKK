@@ -1369,63 +1369,95 @@ Legend: ✓ = Interaction │ - = No Direct Interaction
 ### Mermaid ER Diagram
 
 ```mermaid
-erDiagram
-    USERS ||--o{ PBB : "manages"
-    WARGA ||--o{ PBB : "owns"
-    
-    USERS {
-        bigint id PK
-        string name
-        string email UK "unique"
-        timestamp email_verified_at
-        string password
-        enum role "admin|user"
-        string remember_token
-        timestamp created_at
-        timestamp updated_at
-    }
-    
-    WARGA {
-        bigint id PK
-        string nik UK "unique, 16 chars"
-        string no_kk UK "unique, 16 chars"
-        string nama_lengkap
-        string alamat
-        int rt "Rukun Tetangga"
-        int rw "Rukun Warga"
-        enum jenis_kelamin "Laki-laki|Perempuan"
-        string tempat_lahir
-        date tanggal_lahir
-        string no_telp "nullable"
-        string agama
-        timestamp created_at
-        timestamp updated_at
-    }
-    
-    PBB {
-        bigint id PK
-        string nop UK "unique, 18 chars"
-        string nik_pemilik FK "references warga.nik"
-        string nama_pemilik
-        string alamat_objek
-        int rt
-        int rw
-        string kelurahan
-        string kecamatan
-        string kabupaten
-        string provinsi
-        int luas_tanah
-        int luas_bangunan
-        string status_tanah "Milik Sendiri|Sewa|Hibah"
-        string status_bangunan "Milik Sendiri|Sewa|Hibah"
-        string jenis_bangunan
-        int tahun_perolehan
-        bigint nilai_pajak_tahun_ini
-        string status_pembayaran "Lunas|Belum Lunas|Cicilan"
-        string keterangan "nullable"
-        timestamp created_at
-        timestamp updated_at
-    }
+
+graph TD
+    A[User Login] --> B{Check Role}
+    B -->|Admin Desa| C[Dashboard Admin Desa]
+    B -->|Petugas PBB| D[Dashboard Petugas]
+    B -->|Warga| E[Dashboard Warga]
+
+    %% =======================
+    %% ADMIN DESA
+    %% =======================
+    C --> C1[Manajemen Pengguna]
+    C1 --> C1a[Tambah Petugas PBB]
+    C1 --> C1b[Edit Petugas]
+    C1 --> C1c[Hapus Petugas]
+    C1 --> C1d[Daftar Pengguna Sistem]
+
+    C --> C2[Manajemen Data Warga]
+    C2 --> C2a[Tambah Data Warga Baru]
+    C2 --> C2b[Edit Data Warga]
+    C2 --> C2c[Import Data Warga dari Excel]
+    C2 --> C2d[Cari & Filter Warga]
+    C2 --> C2e[Detail Profil Warga]
+
+    C --> C3[Manajemen Objek PBB]
+    C3 --> C3a[Tambah Objek PBB Baru]
+    C3 --> C3b[Edit Data PBB]
+    C3 --> C3c[Hapus Objek PBB]
+    C3 --> C3d[Import SPPT Massal]
+    C3 --> C3e[Cari NOP / NIK]
+    C3 --> C3f[Detail SPPT & Riwayat]
+
+    C --> C4[Laporan & Rekap]
+    C4 --> C4a[Rekap PBB per RT/RW]
+    C4 --> C4b[Rekap Realisasi Tahunan]
+    C4 --> C4c[Daftar Tunggakan]
+    C4 --> C4d[Export ke Excel/PDF]
+
+    %% =======================
+    %% PETUGAS PBB
+    %% =======================
+    D --> D1[Input & Update PBB]
+    D1 --> D1a[Tambah Objek PBB]
+    D1 --> D1b[Update Nilai Pajak]
+    D1 --> D1c[Update Status Pembayaran]
+
+    D --> D2[Pencarian Data]
+    D2 --> D2a[Cari berdasarkan NOP]
+    D2 --> D2b[Cari berdasarkan NIK/Nama]
+    D2 --> D2c[Filter per RT/RW]
+
+    D --> D3[Laporan Harian]
+    D3 --> D3a[Data yang Baru Diinput]
+    D3 --> D3b[Data yang Diperbaiki]
+
+    %% =======================
+    %% WARGA
+    %% =======================
+    E --> E1[Cek Tagihan PBB]
+    E1 --> E1a[Lihat Daftar Objek PBB Milik Saya]
+    E1 --> E1b[Lihat Detail SPPT per Tahun]
+    E1 --> E1c[Lihat Total Tunggakan]
+
+    E --> E2[Bayar PBB Online]
+    E2 --> E2a[Pilih Objek & Tahun Pajak]
+    E2 --> E2b[Upload Bukti Bayar]
+    E2 --> E2c[Status: Menunggu Verifikasi]
+
+    E --> E3[Profil Saya]
+    E3 --> E3a[Lihat Data KTP & KK]
+    E3 --> E3b[Update No. Telepon]
+    E3 --> E3c[Lihat Riwayat Pembayaran]
+
+    %% =======================
+    %% WARNA
+    %% =======================
+    style A fill:#e1f5ff
+    style B fill:#fff9c4
+    style C fill:#c8e6c9
+    style D fill:#b3e5fc
+    style E fill:#ffccbc
+
+    style C1 fill:#a5d6a7
+    style C2 fill:#a5d6a7
+    style C3 fill:#a5d6a7
+    style C4 fill:#a5d6a7
+    style D1 fill:#81d4fa
+    style E1 fill:#ffab91
+    style E2 fill:#ffab91
+
 ```
 
 ### Database Tables Overview
