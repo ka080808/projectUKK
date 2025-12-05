@@ -58,7 +58,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             \Log::info('Login success', ['email' => $credentials['email']]);
-            return redirect()->route('warga.index')->with('success', 'Berhasil login! 😊');
+            
+            // Redirect berdasarkan role
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('dashboard')->with('success', 'Berhasil login! 😊');
+            } else {
+                return redirect()->route('user.dashboard')->with('success', 'Berhasil login! 😊');
+            }
         }
 
         \Log::error('Auth attempt failed', ['email' => $credentials['email']]);

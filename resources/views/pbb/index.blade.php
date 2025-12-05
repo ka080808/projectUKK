@@ -354,6 +354,14 @@
 
                 <div class="page-title">
                     <h1>📋 Daftar Data PBB</h1>
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <a href="{{ route('pbb.print') }}" class="btn" style="background-color: #3498db; text-decoration: none; padding: 8px 15px; border-radius: 4px; color: white; font-size: 14px;">
+                            🖨️ Cetak/Print
+                        </a>
+                        <a href="{{ route('pbb.export-pdf') }}" class="btn" style="background-color: #e74c3c; text-decoration: none; padding: 8px 15px; border-radius: 4px; color: white; font-size: 14px;">
+                            📥 Export PDF
+                        </a>
+                    </div>
                 </div>
 
                 <div class="controls">

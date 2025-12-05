@@ -26,7 +26,7 @@
 -   [Konfigurasi](#konfigurasi)
 -   [Penggunaan](#penggunaan)
 -   [Struktur Proyek](#struktur-proyek)
--   [Database](#database)
+-   [Database - ERD](#-database---entity-relationship-diagram-erd)
 -   [API Endpoints](#api-endpoints)
 -   [Dokumentasi](#dokumentasi)
 -   [Troubleshooting](#troubleshooting)
@@ -59,6 +59,10 @@ Aplikasi ini cocok untuk digunakan oleh **Kelurahan/Desa**, **Kecamatan**, atau 
 -   ✅ Registrasi pengguna baru
 -   ✅ Logout dan session management
 -   ✅ Password hashing aman dengan bcrypt
+-   ✅ **ADMIN Access**: Dashboard, CRUD Warga, CRUD PBB, Laporan, Export, Print
+-   ✅ **USER Access**: Input Data Warga, Input Data PBB (Limited - Create Only)
+-   ✅ Dynamic sidebar berdasarkan role pengguna
+-   ✅ Middleware role checking untuk setiap route
 
 ### 👥 Manajemen Data Penduduk
 
@@ -92,10 +96,14 @@ Aplikasi ini cocok untuk digunakan oleh **Kelurahan/Desa**, **Kecamatan**, atau 
 ### 📈 Pelaporan & Ekspor
 
 -   ✅ Lihat data dalam format tabel dengan pagination
--   ✅ Export data ke format PDF
+-   ✅ Export data ke format PDF dengan styling profesional
 -   ✅ Export data ke format Excel (.xlsx)
 -   ✅ Laporan terstruktur dengan header dan footer
--   ✅ Print-friendly report
+-   ✅ Print-friendly report dengan tombol cetak
+-   ✅ Print Data Warga - Cetak semua data penduduk
+-   ✅ Print Data PBB - Cetak semua data pajak dengan ringkasan status pembayaran
+-   ✅ Export PDF untuk Data Warga dan PBB
+-   ✅ Summary cards dengan statistik pembayaran
 
 ### 👨‍💼 Manajemen Pengguna (Admin Only)
 
@@ -1353,6 +1361,104 @@ Legend: ✓ = Interaction │ - = No Direct Interaction
                     │ D4. sessions      │
                     └───────────────────┘
 ```
+
+---
+
+## 🗄️ Database - Entity Relationship Diagram (ERD)
+
+### Mermaid ER Diagram
+
+```mermaid
+erDiagram
+    USERS ||--o{ PBB : "manages"
+    WARGA ||--o{ PBB : "owns"
+    
+    USERS {
+        bigint id PK
+        string name
+        string email UK "unique"
+        timestamp email_verified_at
+        string password
+        enum role "admin|user"
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    WARGA {
+        bigint id PK
+        string nik UK "unique, 16 chars"
+        string no_kk UK "unique, 16 chars"
+        string nama_lengkap
+        string alamat
+        int rt "Rukun Tetangga"
+        int rw "Rukun Warga"
+        enum jenis_kelamin "Laki-laki|Perempuan"
+        string tempat_lahir
+        date tanggal_lahir
+        string no_telp "nullable"
+        string agama
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    PBB {
+        bigint id PK
+        string nop UK "unique, 18 chars"
+        string nik_pemilik FK "references warga.nik"
+        string nama_pemilik
+        string alamat_objek
+        int rt
+        int rw
+        string kelurahan
+        string kecamatan
+        string kabupaten
+        string provinsi
+        int luas_tanah
+        int luas_bangunan
+        string status_tanah "Milik Sendiri|Sewa|Hibah"
+        string status_bangunan "Milik Sendiri|Sewa|Hibah"
+        string jenis_bangunan
+        int tahun_perolehan
+        bigint nilai_pajak_tahun_ini
+        string status_pembayaran "Lunas|Belum Lunas|Cicilan"
+        string keterangan "nullable"
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+### Database Tables Overview
+
+| Tabel | Tujuan | Kolom Utama |
+|-------|--------|------------|
+| **users** | Autentikasi & Authorization | id, email, password, role |
+| **warga** | Data Penduduk | id, nik, no_kk, nama_lengkap, alamat |
+| **pbb** | Data Pajak Bumi & Bangunan | id, nop, nik_pemilik, nilai_pajak_tahun_ini, status_pembayaran |
+
+### Relationships
+
+```
+WARGA (1) ──────→ (∞) PBB
+  ├─ nik (PK)         ├─ nik_pemilik (FK)
+  ├─ nama_lengkap     ├─ nop
+  └─ alamat            └─ nilai_pajak_tahun_ini
+
+USERS (1) ──────→ (∞) PBB (Management)
+  ├─ id (PK)          ├─ id
+  ├─ role             └─ status_pembayaran
+  └─ email
+```
+
+### Key Features
+
+- **Primary Keys**: Setiap tabel memiliki `id` sebagai unique identifier
+- **Foreign Keys**: `pbb.nik_pemilik` merujuk ke `warga.nik`
+- **Unique Constraints**: Email (users), NIK & KK (warga), NOP (pbb)
+- **Cascading Delete**: Menghapus warga akan menghapus semua PBB-nya
+- **Role-Based Access**: Users table mendukung role 'admin' dan 'user'
+
+---
 
 ### 🔄 Deployment & Infrastructure Diagram
 

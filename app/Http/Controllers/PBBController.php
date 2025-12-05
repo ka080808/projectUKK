@@ -46,7 +46,12 @@ class PBBController extends Controller
 
         PBB::create($validated);
 
-        return redirect()->route('pbb.index')->with('success', 'Data PBB berhasil ditambahkan.');
+        // Redirect berdasarkan role user
+        if (\Auth::user()->role === 'admin') {
+            return redirect()->route('pbb.index')->with('success', 'Data PBB berhasil ditambahkan.');
+        } else {
+            return redirect()->route('user.dashboard')->with('success', '✅ Terima kasih telah mengisi data PBB! Data Anda telah disimpan dengan baik.');
+        }
     }
 
     public function edit(PBB $pbb)
@@ -88,5 +93,24 @@ class PBBController extends Controller
     {
         $pbb->delete();
         return redirect()->route('pbb.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    /**
+     * Print semua data PBB
+     */
+    public function printAll()
+    {
+        $pbb = PBB::all();
+        return view('pbb.print', compact('pbb'));
+    }
+
+    /**
+     * Export data PBB ke PDF
+     */
+    public function exportPDF()
+    {
+        $pbb = PBB::all();
+        $pdf = \PDF::loadView('pbb.pdf', compact('pbb'));
+        return $pdf->download('Data_PBB_' . date('Y-m-d_His') . '.pdf');
     }
 }

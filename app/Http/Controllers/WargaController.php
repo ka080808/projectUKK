@@ -46,7 +46,12 @@ class WargaController extends Controller
 
             Warga::create($validated);
 
-            return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan');
+            // Redirect berdasarkan role user
+            if (\Auth::user()->role === 'admin') {
+                return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan');
+            } else {
+                return redirect()->route('user.dashboard')->with('success', '✅ Terima kasih telah mengisi data warga! Data Anda telah disimpan dengan baik.');
+            }
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -103,5 +108,24 @@ class WargaController extends Controller
     {
         $warga->delete();
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus');
+    }
+
+    /**
+     * Print semua data warga
+     */
+    public function printAll()
+    {
+        $warga = Warga::all();
+        return view('warga.print', compact('warga'));
+    }
+
+    /**
+     * Export data warga ke PDF
+     */
+    public function exportPDF()
+    {
+        $warga = Warga::all();
+        $pdf = \PDF::loadView('warga.pdf', compact('warga'));
+        return $pdf->download('Data_Warga_' . date('Y-m-d_His') . '.pdf');
     }
 }

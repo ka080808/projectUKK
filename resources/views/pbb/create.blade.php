@@ -93,12 +93,18 @@
         <div class="logo">📊 Kependudukan Raka</div>
 
         <nav>
-            <a href="{{ route('dashboard') }}">📈 Dashboard</a>
-            <a href="{{ route('warga.create') }}">👥 Input Data Warga</a>
-            <a href="{{ route('warga.index') }}">👁️ Lihat Data Warga</a>
-            <a href="{{ route('pbb.create') }}" class="active">➕ Input Data PBB</a>
-            <a href="{{ route('pbb.index') }}">🏠 Lihat Data PBB</a>
-            <a href="{{ route('report.index') }}">📄 Laporan</a>
+            @if(Auth::user()->role === 'admin')
+                <a href="{{ route('dashboard') }}">📈 Dashboard</a>
+                <a href="{{ route('warga.create') }}">👥 Input Data Warga</a>
+                <a href="{{ route('warga.index') }}">👁️ Lihat Data Warga</a>
+                <a href="{{ route('pbb.create') }}" class="active">➕ Input Data PBB</a>
+                <a href="{{ route('pbb.index') }}">🏠 Lihat Data PBB</a>
+                <a href="{{ route('report.index') }}">📄 Laporan</a>
+            @else
+                <a href="{{ route('user.dashboard') }}">🏠 Dashboard</a>
+                <a href="{{ route('warga.create-user') }}">👥 Input Data Warga</a>
+                <a href="{{ route('pbb.create-user') }}" class="active">➕ Input Data PBB</a>
+            @endif
         </nav>
     </div>
 
@@ -124,7 +130,7 @@
 
             <div class="form-container">
 
-                <form method="POST" action="{{ route('pbb.store') }}">
+                <form method="POST" action="@if(Auth::user()->role === 'admin'){{ route('pbb.store') }}@else{{ route('pbb.store-user') }}@endif">
                     @csrf
 
                     <!-- SECTION: OBJEK PAJAK -->

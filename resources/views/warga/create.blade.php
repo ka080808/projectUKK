@@ -181,13 +181,18 @@
         <div class="sidebar">
             <div class="logo">📊 Data Kependudukan</div>
             <nav>
-                <a href="{{ route('dashboard') }}">📈 Dashboard</a>
-                <a href="{{ route('warga.create') }}" class="active">👥 Input Data Warga</a>
-                <a href="{{ route('warga.index') }}">👁️ Lihat Data Warga</a>
-                <a href="{{ route('pbb.create') }}">📝 Input Data PBB</a>
-                <a href="{{ route('pbb.index') }}">👁️ Lihat Data PBB</a>
-                <a href="{{ route('report.index') }}">📄 Laporan</a>
-                
+                @if(Auth::user()->role === 'admin')
+                    <a href="{{ route('dashboard') }}">📈 Dashboard</a>
+                    <a href="{{ route('warga.create') }}" class="active">👥 Input Data Warga</a>
+                    <a href="{{ route('warga.index') }}">👁️ Lihat Data Warga</a>
+                    <a href="{{ route('pbb.create') }}">📝 Input Data PBB</a>
+                    <a href="{{ route('pbb.index') }}">👁️ Lihat Data PBB</a>
+                    <a href="{{ route('report.index') }}">📄 Laporan</a>
+                @else
+                    <a href="{{ route('user.dashboard') }}">🏠 Dashboard</a>
+                    <a href="{{ route('warga.create-user') }}" class="active">👥 Input Data Warga</a>
+                    <a href="{{ route('pbb.create-user') }}">📝 Input Data PBB</a>
+                @endif
             </nav>
         </div>
 
@@ -218,7 +223,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('warga.store') }}" method="POST">
+                    <form action="@if(Auth::user()->role === 'admin'){{ route('warga.store') }}@else{{ route('warga.store-user') }}@endif" method="POST">
                         @csrf
 
                         <div class="form-row">

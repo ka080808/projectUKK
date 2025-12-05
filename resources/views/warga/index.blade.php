@@ -355,6 +355,14 @@
 
                 <div class="page-title">
                     <h1>Data Warga</h1>
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <a href="{{ route('warga.print') }}" class="btn" style="background-color: #3498db; text-decoration: none; padding: 8px 15px; border-radius: 4px; color: white; font-size: 14px;">
+                            🖨️ Cetak/Print
+                        </a>
+                        <a href="{{ route('warga.export-pdf') }}" class="btn" style="background-color: #e74c3c; text-decoration: none; padding: 8px 15px; border-radius: 4px; color: white; font-size: 14px;">
+                            📥 Export PDF
+                        </a>
+                    </div>
                 </div>
 
                 <div class="controls">

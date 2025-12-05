@@ -17,23 +17,32 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create demo users
-        User::create([
-            'name' => 'Katy Eight',
-            'email' => 'katyxeight@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('Vinividi1933'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'katyxeight@gmail.com'],
+            [
+                'name' => 'Katy Eight',
+                'password' => \Illuminate\Support\Facades\Hash::make('Vinividi1933'),
+                'role' => 'admin',
+            ]
+        );
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'akatirthy@gmail.com'],
+            [
+                'name' => 'Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('1933admin'),
+                'role' => 'admin',
+            ]
+        );
 
-        User::create([
-            'name' => 'Operator',
-            'email' => 'operator@example.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'farid25@gmail.com'],
+            [
+                'name' => 'Operator',
+                'password' => \Illuminate\Support\Facades\Hash::make('1357975'),
+                'role' => 'user',
+            ]
+        );
 
         // Seeding data warga dummy
         Warga::factory(4)->create();
